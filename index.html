@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CS RANKED</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="Ranking summary">
+        <div class="brand-block">
+          <h1>CS RANKED</h1>
+        </div>
+
+        <button class="primary-action" id="generateMatchBtn" type="button" hidden>
+          <span aria-hidden="true">+</span>
+          Generate match
+        </button>
+      </section>
+
+      <nav class="app-tabs" aria-label="Main navigation">
+        <button class="app-tab active" type="button" data-view="exp">RANKED</button>
+        <button class="app-tab" type="button" data-view="ranking">OFF RANKED</button>
+      </nav>
+
+      <section class="app-view" id="rankingView" aria-label="Off ranked history" hidden>
+        <section class="rank-grid" aria-label="Current ranking">
+          <article class="rank-panel">
+            <div class="rank-header">
+              <div>
+                <p class="panel-label">Current rating</p>
+                <strong id="currentRating">0</strong>
+              </div>
+              <span class="rank-badge" id="rankBadge">GRAY</span>
+            </div>
+
+            <div class="rank-progress" aria-label="Progress to next rank">
+              <div id="rankProgressBar"></div>
+            </div>
+            <p class="rank-next" id="rankNextText">Next rank: 5,000</p>
+          </article>
+
+          <article class="stat-panel">
+            <p class="panel-label">Streak</p>
+            <strong id="currentStreak">0</strong>
+            <span>wins in a row</span>
+          </article>
+
+          <article class="stat-panel">
+            <p class="panel-label">Wins / Draws / Losses</p>
+            <strong id="recordText">0 / 0 / 0</strong>
+            <span id="winRateText">0% win rate</span>
+          </article>
+
+          <article class="base-panel">
+            <label for="baseRatingInput">Starting rating</label>
+            <div class="base-control">
+              <input id="baseRatingInput" type="number" min="0" max="50000" step="1" />
+              <button id="saveBaseRatingBtn" type="button">Apply</button>
+            </div>
+          </article>
+        </section>
+
+        <div class="ranking-info-grid">
+          <section class="history-section" aria-label="Match history">
+            <div class="section-title">
+              <div>
+                <p class="panel-label">History</p>
+                <h2>Matches</h2>
+              </div>
+              <div class="section-actions">
+                <button class="ghost-action" id="exportBackupBtn" type="button">Export backup</button>
+                <button class="ghost-action" id="importBackupBtn" type="button">Import backup</button>
+                <button class="ghost-action" id="resetDataBtn" type="button">Clear all</button>
+                <input id="backupFileInput" type="file" accept="application/json,.json" hidden />
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Map</th>
+                    <th>Side</th>
+                    <th>Score</th>
+                    <th>Result</th>
+                    <th>Rating</th>
+                    <th>Bots</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="matchesTableBody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+              <strong>No matches generated yet.</strong>
+              <span>Click Generate match to build the map, side and bots.</span>
+            </div>
+          </section>
+
+          <aside class="map-section" aria-label="Available maps">
+            <div class="section-title">
+              <div>
+                <p class="panel-label">Rotation</p>
+                <h2>Maps</h2>
+              </div>
+            </div>
+
+            <div class="table-wrap map-table-wrap">
+              <table class="map-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Map</th>
+                    <th>Played</th>
+                  </tr>
+                </thead>
+                <tbody id="mapsTableBody"></tbody>
+              </table>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="app-view" id="esportsView" aria-label="E-SPORTS" hidden>
+        <section class="esports-section">
+          <div class="section-title">
+            <div>
+              <p class="panel-label">E-SPORTS</p>
+            </div>
+            <div class="sub-tabs" role="group" aria-label="E-SPORTS area">
+              <button class="sub-tab active" type="button" data-esports-tab="competitive">CUPS</button>
+              <button class="sub-tab" type="button" data-esports-tab="teams">Teams</button>
+              <button class="sub-tab" type="button" data-esports-tab="players">Players</button>
+            </div>
+          </div>
+
+          <div class="esports-panel" id="teamsPanel" hidden>
+            <article class="editor-panel">
+              <div class="panel-heading">
+                <p class="panel-label">Entry</p>
+                <h3 id="teamFormTitle">New team</h3>
+              </div>
+
+              <div class="form-grid">
+                <label>
+                  Team name
+                  <input id="teamNameInput" type="text" maxlength="48" />
+                </label>
+                <label>
+                  Club logo
+                  <input id="teamLogoInput" type="file" accept="image/*" />
+                </label>
+              </div>
+
+              <div class="logo-preview-row">
+                <div class="club-logo-preview" id="teamLogoPreview">LOGO</div>
+                <button class="secondary-action" id="clearTeamLogoBtn" type="button">Remove logo</button>
+              </div>
+
+              <div class="form-actions">
+                <button class="secondary-action" id="cancelTeamEditBtn" type="button" hidden>Cancel</button>
+                <button class="primary-action" id="saveTeamBtn" type="button">Save team</button>
+              </div>
+            </article>
+
+            <article class="list-panel">
+              <div class="panel-heading">
+                <p class="panel-label">Teams</p>
+                <h3>Registered clubs</h3>
+              </div>
+              <div class="team-list" id="teamsList"></div>
+              <div class="empty-state compact" id="teamsEmptyState">
+                <strong>No teams registered.</strong>
+              </div>
+            </article>
+          </div>
+
+          <div class="esports-panel" id="playersPanel" hidden>
+            <article class="editor-panel">
+              <div class="panel-heading">
+                <p class="panel-label">Entry</p>
+                <h3 id="playerFormTitle">New player</h3>
+              </div>
+
+              <div class="form-grid">
+                <label>
+                  Player name
+                  <input id="playerNameInput" type="text" maxlength="48" />
+                </label>
+                <label>
+                  Nationality
+                  <input id="playerNationalityInput" type="text" maxlength="36" />
+                </label>
+                <label>
+                  Overall
+                  <input id="playerOverallInput" type="number" min="0" max="140" step="1" />
+                </label>
+                <label>
+                  Team
+                  <select id="playerTeamSelect"></select>
+                </label>
+                <label>
+                  Flag / logo
+                  <input id="playerImageInput" type="file" accept="image/*" />
+                </label>
+              </div>
+
+              <div class="logo-preview-row">
+                <div class="club-logo-preview" id="playerImagePreview">IMG</div>
+                <button class="secondary-action" id="clearPlayerImageBtn" type="button">Remove image</button>
+              </div>
+
+              <div class="form-actions">
+                <button class="secondary-action" id="cancelPlayerEditBtn" type="button" hidden>Cancel</button>
+                <button class="primary-action" id="savePlayerBtn" type="button">Save player</button>
+              </div>
+            </article>
+
+            <article class="list-panel">
+              <div class="panel-heading">
+                <p class="panel-label">Players</p>
+                <h3>Registered roster</h3>
+              </div>
+              <div class="players-list" id="playersList"></div>
+              <div class="empty-state compact" id="playersEmptyState">
+                <strong>No players registered.</strong>
+              </div>
+            </article>
+          </div>
+
+          <div class="esports-panel competitive-panel active" id="competitivePanel">
+            <div class="competitive-section">
+              <div class="section-title">
+                <div>
+                  <p class="panel-label">CUPS</p>
+                  <h2>Swiss format</h2>
+                </div>
+                <div class="section-actions">
+                  <button class="primary-action" id="createCompetitiveBtn" type="button">Create cup</button>
+                  <button class="ghost-action" id="resetCompetitiveBtn" type="button">Reset</button>
+                </div>
+              </div>
+
+              <div class="competitive-setup" id="competitiveSetupPanel" hidden>
+                <article class="editor-panel">
+                  <div class="panel-heading">
+                    <p class="panel-label">Selection</p>
+                    <h3>Choose 16 teams</h3>
+                  </div>
+                  <div class="selected-count" id="competitiveSelectedCount">0 / 16 selected</div>
+                  <div class="competitive-team-selector" id="competitiveTeamsSelector"></div>
+                  <div class="form-actions">
+                    <button class="secondary-action" id="cancelCompetitiveSetupBtn" type="button">Cancel</button>
+                    <button class="primary-action" id="startCompetitiveBtn" type="button">Start cup</button>
+                  </div>
+                </article>
+              </div>
+
+              <div class="competitive-board" id="competitiveBoard" hidden>
+                <article class="list-panel">
+                  <div class="panel-heading">
+                    <p class="panel-label">Standings</p>
+                    <h3 id="competitiveStatusTitle">Active cup</h3>
+                  </div>
+                  <div class="standings-list" id="competitiveStandings"></div>
+                </article>
+
+                <article class="list-panel">
+                  <div class="panel-heading">
+                    <p class="panel-label">Matches</p>
+                    <h3>Rounds</h3>
+                  </div>
+                  <div class="rounds-list" id="competitiveRounds"></div>
+                </article>
+              </div>
+
+              <div class="empty-state compact" id="competitiveEmptyState">
+                <strong>No active cup.</strong>
+                <span>Register at least 16 teams in E-SPORTS and create a cup.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="app-view active" id="expView" aria-label="RANKED">
+        <section class="exp-section">
+          <div class="section-title">
+            <div>
+              <p class="panel-label">RANKED</p>
+              <h2>Player matches</h2>
+            </div>
+            <div class="section-actions">
+              <button class="primary-action" id="generateExpMatchBtn" type="button">
+                <span aria-hidden="true">+</span>
+                Generate match
+              </button>
+            </div>
+          </div>
+
+          <div class="sub-tabs exp-tabs" role="group" aria-label="RANKED area">
+            <button class="sub-tab active" type="button" data-exp-tab="matches">Matches</button>
+            <button class="sub-tab" type="button" data-exp-tab="ranking">Ranking</button>
+          </div>
+
+          <div class="exp-panel active" id="expMatchesPanel">
+            <div class="exp-info-grid">
+              <section class="history-section" aria-label="RANKED history">
+                <div class="table-wrap">
+                  <table class="exp-match-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Map</th>
+                        <th>Team A</th>
+                        <th>Score</th>
+                        <th>Team B</th>
+                        <th>Result</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="expMatchesTableBody"></tbody>
+                  </table>
+                </div>
+
+                <div class="empty-state" id="expEmptyState">
+                  <strong>No matches generated yet.</strong>
+                  <span>Click Generate match to choose players and build the teams.</span>
+                </div>
+              </section>
+
+              <aside class="map-section" aria-label="RANKED maps">
+                <div class="section-title">
+                  <div>
+                    <p class="panel-label">RANKED rotation</p>
+                    <h2>Maps</h2>
+                  </div>
+                </div>
+
+                <div class="table-wrap map-table-wrap">
+                  <table class="map-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Map</th>
+                        <th>Games</th>
+                      </tr>
+                    </thead>
+                    <tbody id="expMapsTableBody"></tbody>
+                  </table>
+                </div>
+              </aside>
+            </div>
+          </div>
+
+          <div class="exp-panel" id="expRankingPanel" hidden>
+            <article class="list-panel exp-ranking-panel">
+              <div class="table-wrap">
+                <table class="exp-ranking-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Player</th>
+                      <th>Wins</th>
+                      <th>Win rate</th>
+                      <th>Kills</th>
+                      <th>KDA</th>
+                      <th>Score</th>
+                      <th>MVP</th>
+                      <th>GOATs</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expRankingList"></tbody>
+                </table>
+              </div>
+              <div class="empty-state compact" id="expRankingEmptyState">
+                <strong>No completed matches yet.</strong>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog class="match-dialog" id="matchDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeDialogBtn" type="button" aria-label="Close">x</button>
+
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">Selected match</p>
+            <h2 id="dialogTitle">Map</h2>
+          </div>
+          <span class="side-pill" id="dialogSide">CT</span>
+        </header>
+
+        <section class="detail-grid">
+          <article class="team-panel" id="playerTeamPanel">
+            <div class="team-title">
+              <span>My team</span>
+              <strong id="playerTeamSide">CT</strong>
+            </div>
+            <p class="team-strength" id="playerTeamStrength">Average strength: 0</p>
+            <ul id="playerBotsList"></ul>
+          </article>
+
+          <article class="team-panel enemy" id="enemyTeamPanel">
+            <div class="team-title">
+              <span>Enemy team</span>
+              <strong id="enemyTeamSide">TR</strong>
+            </div>
+            <p class="team-strength" id="enemyTeamStrength">Average strength: 0</p>
+            <ul id="enemyBotsList"></ul>
+          </article>
+        </section>
+
+        <section class="command-section">
+          <div class="command-title">
+            <div>
+              <p class="panel-label">Console CS2</p>
+              <h3>Bot commands</h3>
+            </div>
+            <button id="copyCommandBtn" type="button">Copy</button>
+          </div>
+          <textarea id="botCommandText" readonly spellcheck="false"></textarea>
+        </section>
+
+        <section class="result-section">
+          <div class="score-grid">
+            <label>
+              My team rounds
+              <input id="teamRoundsInput" type="number" min="0" max="99" step="1" />
+            </label>
+            <label>
+              Enemy rounds
+              <input id="enemyRoundsInput" type="number" min="0" max="99" step="1" />
+            </label>
+            <label>
+              Kills
+              <input id="fragsInput" type="number" min="0" max="99" step="1" />
+            </label>
+            <label>
+              Deaths
+              <input id="deathsInput" type="number" min="0" max="99" step="1" />
+            </label>
+          </div>
+
+          <div class="delta-preview" id="deltaPreview">Fill rounds, kills and deaths to calculate rating.</div>
+        </section>
+
+        <footer class="dialog-actions">
+          <button class="danger-action" id="deleteMatchBtn" type="button">Delete</button>
+          <button class="secondary-action" id="markPendingBtn" type="button">Mark pending</button>
+          <button class="primary-action" id="saveResultBtn" type="button">Save result</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="match-dialog" id="teamDetailDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeTeamDetailBtn" type="button" aria-label="Close">x</button>
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">Team</p>
+            <h2 id="teamDetailName">Team</h2>
+          </div>
+          <span class="overall-badge" id="teamDetailOverall">OVR -</span>
+        </header>
+        <section class="team-detail-layout">
+          <div class="club-logo large" id="teamDetailLogo">LOGO</div>
+          <div>
+            <p class="team-strength" id="teamDetailMeta">0 players</p>
+            <div class="players-list detail" id="teamDetailPlayers"></div>
+          </div>
+        </section>
+      </form>
+    </dialog>
+
+    <dialog class="match-dialog compact-dialog" id="competitiveMatchDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeCompetitiveMatchBtn" type="button" aria-label="Close">x</button>
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">Cup match</p>
+            <h2 id="competitiveMatchTitle">Match</h2>
+          </div>
+        </header>
+        <section class="winner-grid">
+          <button class="winner-option" id="winnerTeamABtn" type="button">Team A</button>
+          <button class="winner-option" id="winnerTeamBBtn" type="button">Team B</button>
+        </section>
+      </form>
+    </dialog>
+
+    <dialog class="match-dialog compact-dialog" id="expSetupDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeExpSetupBtn" type="button" aria-label="Close">x</button>
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">RANKED</p>
+            <h2>Generate match</h2>
+          </div>
+        </header>
+
+        <section class="exp-setup-grid" id="expPlayerSelector"></section>
+
+        <footer class="dialog-actions">
+          <button class="secondary-action" id="cancelExpSetupBtn" type="button">Cancel</button>
+          <button class="primary-action" id="confirmExpMatchBtn" type="button">Create match</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="match-dialog" id="expMatchDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeExpMatchBtn" type="button" aria-label="Close">x</button>
+
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">RANKED match</p>
+            <h2 id="expMatchTitle">Map</h2>
+          </div>
+        </header>
+
+        <section class="result-section ranked-result-section">
+          <div class="command-title">
+            <div>
+              <p class="panel-label">Stats</p>
+              <h3>Individual stats</h3>
+            </div>
+          </div>
+
+          <div class="ranked-scoreboard" id="expStatsGrid">
+            <article class="team-panel ranked-team-panel">
+              <div class="team-title">
+                <span>Team A</span>
+                <strong id="expTeamASide">A</strong>
+              </div>
+              <div class="exp-team-stats" id="expTeamAList"></div>
+              <label class="team-round-control">
+                Team A rounds
+                <input id="expTeamARoundsInput" type="number" min="0" max="99" step="1" />
+              </label>
+            </article>
+
+            <article class="team-panel ranked-team-panel enemy">
+              <div class="team-title">
+                <span>Team B</span>
+                <strong id="expTeamBSide">B</strong>
+              </div>
+              <div class="exp-team-stats" id="expTeamBList"></div>
+              <label class="team-round-control">
+                Team B rounds
+                <input id="expTeamBRoundsInput" type="number" min="0" max="99" step="1" />
+              </label>
+            </article>
+          </div>
+
+          <div class="delta-preview" id="expResultPreview">Fill the rounds to calculate the result.</div>
+        </section>
+
+        <footer class="dialog-actions">
+          <button class="danger-action" id="deleteExpMatchBtn" type="button">Delete</button>
+          <button class="secondary-action" id="markExpPendingBtn" type="button">Mark pending</button>
+          <button class="primary-action" id="saveExpMatchBtn" type="button">Save match</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="match-dialog exp-player-dialog" id="expPlayerDetailDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeExpPlayerDetailBtn" type="button" aria-label="Close">x</button>
+        <header class="exp-player-hero">
+          <div class="exp-player-photo" id="expPlayerPhotoPreview"></div>
+          <div class="exp-player-hero-main">
+            <p class="panel-label">RANKED player</p>
+            <h2 id="expPlayerDetailName">Player</h2>
+            <div class="exp-player-actions">
+              <button class="secondary-action" id="uploadExpPlayerPhotoBtn" type="button">Upload photo</button>
+              <button class="ghost-action" id="removeExpPlayerPhotoBtn" type="button">Remove photo</button>
+              <input id="expPlayerPhotoInput" type="file" accept="image/*" hidden />
+            </div>
+          </div>
+        </header>
+        <section class="exp-detail-grid" id="expPlayerDetailStats"></section>
+        <section class="exp-player-history">
+          <div class="command-title">
+            <div>
+              <p class="panel-label">Recent history</p>
+              <h3>Last 10 matches</h3>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="exp-player-history-table">
+              <thead>
+                <tr>
+                  <th>Map</th>
+                  <th>Rounds</th>
+                  <th>Kills</th>
+                  <th>Assists</th>
+                  <th>Deaths</th>
+                  <th>KDA</th>
+                  <th>Score</th>
+                  <th>MVP</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="expPlayerHistoryBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state compact" id="expPlayerHistoryEmpty">
+            <strong>No completed matches for this player yet.</strong>
+          </div>
+        </section>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
