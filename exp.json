@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-07-21T12:13:03.188Z",
+  "exportedAt": "2026-07-21T16:10:25.021Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -27,45 +27,45 @@
             "vini",
             "davi"
           ],
-          "status": "pending",
-          "result": null,
-          "teamARounds": null,
-          "teamBRounds": null,
+          "status": "completed",
+          "result": "teamB",
+          "teamARounds": 2,
+          "teamBRounds": 10,
           "playerStats": {
             "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 3,
+              "deaths": 10,
+              "assists": 1,
+              "mvp": 1,
+              "score": 7
             },
             "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
+              "kills": 11,
+              "deaths": 9,
+              "assists": 1,
               "mvp": 0,
-              "score": 0
+              "score": 23
             },
             "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
+              "kills": 9,
+              "deaths": 9,
+              "assists": 1,
               "mvp": 0,
-              "score": 0
+              "score": 19
             },
             "vini": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 6,
+              "deaths": 5,
+              "assists": 2,
+              "mvp": 2,
+              "score": 28
             },
             "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 13,
+              "deaths": 8,
+              "assists": 1,
+              "mvp": 1,
+              "score": 27
             }
           }
         },
