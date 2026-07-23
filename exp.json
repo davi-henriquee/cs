@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-07-23T11:24:05.764Z",
+  "exportedAt": "2026-07-23T16:13:37.881Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -27,45 +27,45 @@
             "davi",
             "pedro"
           ],
-          "status": "pending",
-          "result": null,
-          "teamARounds": null,
-          "teamBRounds": null,
+          "status": "completed",
+          "result": "draw",
+          "teamARounds": 12,
+          "teamBRounds": 12,
           "playerStats": {
             "vini": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 21,
+              "deaths": 18,
+              "assists": 8,
+              "mvp": 3,
+              "score": 53
             },
             "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 18,
+              "deaths": 18,
+              "assists": 5,
+              "mvp": 1,
+              "score": 42
             },
             "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
+              "kills": 5,
+              "deaths": 20,
+              "assists": 6,
               "mvp": 0,
-              "score": 0
+              "score": 23
             },
             "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 26,
+              "deaths": 15,
+              "assists": 5,
+              "mvp": 4,
+              "score": 65
             },
             "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 13,
+              "deaths": 17,
+              "assists": 7,
+              "mvp": 4,
+              "score": 41
             }
           }
         },
