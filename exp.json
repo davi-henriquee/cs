@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-07-24T11:13:08.251Z",
+  "exportedAt": "2026-07-24T16:23:19.578Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,65 +15,57 @@
     "exp": {
       "matches": [
         {
-          "id": "3289432d-bb7e-4672-bf54-e940cbc3eb02",
-          "createdAt": "2026-07-24T11:12:51.060Z",
-          "map": "overpass",
+          "id": "a40d999b-44af-4348-a119-36b4009d22c2",
+          "createdAt": "2026-07-24T15:19:35.623Z",
+          "map": "dust 2",
           "teamAIds": [
-            "davi",
-            "vinicius",
-            "pedro"
-          ],
-          "teamBIds": [
-            "mathiussi",
             "vini",
             "cicero"
           ],
-          "status": "pending",
-          "result": null,
-          "teamARounds": null,
-          "teamBRounds": null,
+          "teamBIds": [
+            "pedro",
+            "vinicius",
+            "davi"
+          ],
+          "status": "completed",
+          "result": "draw",
+          "teamARounds": 12,
+          "teamBRounds": 12,
           "playerStats": {
-            "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "mathiussi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
             "vini": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 10,
+              "deaths": 17,
+              "assists": 6,
+              "mvp": 1,
+              "score": 31
             },
             "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
+              "kills": 8,
+              "deaths": 21,
+              "assists": 5,
               "mvp": 0,
-              "score": 0
+              "score": 24
+            },
+            "pedro": {
+              "kills": 11,
+              "deaths": 16,
+              "assists": 4,
+              "mvp": 1,
+              "score": 30
+            },
+            "vinicius": {
+              "kills": 8,
+              "deaths": 15,
+              "assists": 2,
+              "mvp": 0,
+              "score": 22
+            },
+            "davi": {
+              "kills": 33,
+              "deaths": 14,
+              "assists": 5,
+              "mvp": 6,
+              "score": 73
             }
           }
         },
