@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-07-28T16:11:49.573Z",
+  "exportedAt": "2026-07-29T21:32:10.449Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -14,6 +14,53 @@
     },
     "exp": {
       "matches": [
+        {
+          "id": "68227dc1-5c0b-481f-93b3-d62f5f5b1dca",
+          "createdAt": "2026-07-29T21:31:15.577Z",
+          "map": "cache",
+          "teamAIds": [
+            "vinicius",
+            "davi"
+          ],
+          "teamBIds": [
+            "pedro",
+            "vini"
+          ],
+          "status": "completed",
+          "result": "teamA",
+          "teamARounds": 13,
+          "teamBRounds": 9,
+          "playerStats": {
+            "vinicius": {
+              "kills": 8,
+              "deaths": 19,
+              "assists": 4,
+              "mvp": 1,
+              "score": 26
+            },
+            "davi": {
+              "kills": 15,
+              "deaths": 14,
+              "assists": 3,
+              "mvp": 3,
+              "score": 38
+            },
+            "pedro": {
+              "kills": 12,
+              "deaths": 15,
+              "assists": 4,
+              "mvp": 3,
+              "score": 44
+            },
+            "vini": {
+              "kills": 13,
+              "deaths": 15,
+              "assists": 3,
+              "mvp": 3,
+              "score": 32
+            }
+          }
+        },
         {
           "id": "7a8708ff-04af-49d3-a9fc-3e69c9d9d300",
           "createdAt": "2026-07-28T15:31:55.974Z",
