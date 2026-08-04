@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-07-30T16:17:07.532Z",
+  "exportedAt": "2026-08-04T14:23:47.987Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,12 +15,13 @@
     "exp": {
       "matches": [
         {
-          "id": "67cc2dae-15e4-4394-b54b-620456734a87",
-          "createdAt": "2026-07-30T16:16:49.993Z",
-          "map": "train",
+          "id": "4f34e3b7-b0ba-4448-a853-78182df900fb",
+          "createdAt": "2026-08-04T14:23:32.161Z",
+          "map": "anubis",
           "teamAIds": [
             "vini",
-            "davi"
+            "davi",
+            "cicero"
           ],
           "teamBIds": [
             "pedro",
@@ -39,6 +40,13 @@
               "score": 0
             },
             "davi": {
+              "kills": 0,
+              "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            },
+            "cicero": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
