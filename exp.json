@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-06T16:33:21.290Z",
+  "exportedAt": "2026-08-17T16:14:34.031Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -26,38 +26,38 @@
             "pedro",
             "vinicius"
           ],
-          "status": "pending",
-          "result": null,
-          "teamARounds": null,
-          "teamBRounds": null,
+          "status": "completed",
+          "result": "teamA",
+          "teamARounds": 13,
+          "teamBRounds": 5,
           "playerStats": {
             "vini": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 14,
+              "deaths": 9,
+              "assists": 3,
+              "mvp": 2,
+              "score": 38
             },
             "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 18,
+              "deaths": 9,
+              "assists": 4,
+              "mvp": 5,
+              "score": 45
             },
             "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 8,
+              "deaths": 15,
+              "assists": 5,
+              "mvp": 1,
+              "score": 25
             },
             "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 8,
+              "deaths": 16,
+              "assists": 3,
+              "mvp": 1,
+              "score": 31
             }
           }
         },
