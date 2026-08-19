@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-18T12:18:42.794Z",
+  "exportedAt": "2026-08-19T16:09:47.060Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,17 +15,16 @@
     "exp": {
       "matches": [
         {
-          "id": "8e35da74-bed8-42ef-837c-d5c7009f9630",
-          "createdAt": "2026-08-18T12:18:27.323Z",
-          "map": "train",
+          "id": "10656e61-b545-41c9-8ca5-0cf91d21a7cf",
+          "createdAt": "2026-08-19T16:09:41.250Z",
+          "map": "inferno",
           "teamAIds": [
             "pedro",
-            "davi"
+            "vini"
           ],
           "teamBIds": [
             "vinicius",
-            "vini",
-            "cicero"
+            "davi"
           ],
           "status": "pending",
           "result": null,
@@ -39,7 +38,7 @@
               "mvp": 0,
               "score": 0
             },
-            "davi": {
+            "vini": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
@@ -53,19 +52,59 @@
               "mvp": 0,
               "score": 0
             },
-            "vini": {
+            "davi": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
               "mvp": 0,
               "score": 0
+            }
+          }
+        },
+        {
+          "id": "8e35da74-bed8-42ef-837c-d5c7009f9630",
+          "createdAt": "2026-08-18T12:18:27.323Z",
+          "map": "train",
+          "teamAIds": [
+            "pedro",
+            "davi"
+          ],
+          "teamBIds": [
+            "vinicius",
+            "vini"
+          ],
+          "status": "completed",
+          "result": "teamA",
+          "teamARounds": 13,
+          "teamBRounds": 4,
+          "playerStats": {
+            "pedro": {
+              "kills": 9,
+              "deaths": 12,
+              "assists": 6,
+              "mvp": 4,
+              "score": 43
             },
-            "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
+            "davi": {
+              "kills": 18,
+              "deaths": 11,
+              "assists": 3,
+              "mvp": 4,
+              "score": 45
+            },
+            "vinicius": {
+              "kills": 5,
+              "deaths": 13,
+              "assists": 1,
               "mvp": 0,
-              "score": 0
+              "score": 16
+            },
+            "vini": {
+              "kills": 14,
+              "deaths": 12,
+              "assists": 3,
+              "mvp": 3,
+              "score": 35
             }
           }
         },
