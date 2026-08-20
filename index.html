@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CS RANKED</title>
     <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260820-ranked-history" />
   </head>
   <body>
     <main class="app-shell">
@@ -306,6 +306,7 @@
           <div class="sub-tabs exp-tabs" role="group" aria-label="RANKED area">
             <button class="sub-tab active" type="button" data-exp-tab="matches">Matches</button>
             <button class="sub-tab" type="button" data-exp-tab="ranking">Ranking</button>
+            <button class="sub-tab" type="button" data-exp-tab="history">History</button>
           </div>
 
           <div class="exp-panel active" id="expMatchesPanel">
@@ -382,6 +383,10 @@
                 <strong>No completed matches yet.</strong>
               </div>
             </article>
+          </div>
+
+          <div class="exp-panel" id="expHistoryPanel" hidden>
+            <section class="season-history-grid" id="expSeasonGrid" aria-label="RANKED seasons"></section>
           </div>
         </section>
       </section>
@@ -588,6 +593,15 @@
           </div>
         </header>
         <section class="exp-detail-grid" id="expPlayerDetailStats"></section>
+        <section class="exp-map-performance" aria-labelledby="expMapPerformanceTitle">
+          <div class="command-title">
+            <div>
+              <p class="panel-label">Map performance</p>
+              <h3 id="expMapPerformanceTitle">Best and worst maps</h3>
+            </div>
+          </div>
+          <div class="exp-map-performance-grid" id="expPlayerMapStats"></div>
+        </section>
         <section class="exp-player-history">
           <div class="command-title">
             <div>
@@ -620,6 +634,23 @@
       </form>
     </dialog>
 
-    <script src="app.js?v=20260724-full-history"></script>
+    <dialog class="match-dialog season-awards-dialog" id="seasonAwardsDialog">
+      <form method="dialog" class="dialog-shell">
+        <button class="close-button" id="closeSeasonAwardsBtn" type="button" aria-label="Close">x</button>
+        <header class="dialog-header">
+          <div>
+            <p class="panel-label">Season archive</p>
+            <h2>2026/3 Awards</h2>
+          </div>
+        </header>
+        <section class="season-awards-list" aria-label="2026/3 awards">
+          <article><strong>1º</strong><span>Karambit: Special Gold</span></article>
+          <article><strong>2º</strong><span>M4A4: Special Gold</span></article>
+          <article><strong>3º</strong><span>P2000: Special Gold</span></article>
+        </section>
+      </form>
+    </dialog>
+
+    <script src="app.js?v=20260820-ranked-history"></script>
   </body>
 </html>

@@ -25,8 +25,14 @@ const expPlayers = [
   { id: "vini", name: "Vini" },
   { id: "davi", name: "Davi" },
   { id: "cicero", name: "Cícero" },
-  { id: "handrei", name: "Handrei" },
   { id: "mathiussi", name: "Mathiussi" },
+];
+
+const rankedSeasons = [
+  { id: "2027-2", label: "2027/2", upcoming: true },
+  { id: "2027-1", label: "2027/1", upcoming: true },
+  { id: "2026-4", label: "2026/4", upcoming: true },
+  { id: "2026-3", label: "2026/3", upcoming: false },
 ];
 
 const ranks = [
@@ -187,11 +193,13 @@ const elements = {
   expSubTabs: document.querySelectorAll("[data-exp-tab]"),
   expMatchesPanel: document.querySelector("#expMatchesPanel"),
   expRankingPanel: document.querySelector("#expRankingPanel"),
+  expHistoryPanel: document.querySelector("#expHistoryPanel"),
   expMatchesTableBody: document.querySelector("#expMatchesTableBody"),
   expEmptyState: document.querySelector("#expEmptyState"),
   expMapsTableBody: document.querySelector("#expMapsTableBody"),
   expRankingList: document.querySelector("#expRankingList"),
   expRankingEmptyState: document.querySelector("#expRankingEmptyState"),
+  expSeasonGrid: document.querySelector("#expSeasonGrid"),
   expSetupDialog: document.querySelector("#expSetupDialog"),
   closeExpSetupBtn: document.querySelector("#closeExpSetupBtn"),
   cancelExpSetupBtn: document.querySelector("#cancelExpSetupBtn"),
@@ -213,12 +221,15 @@ const elements = {
   closeExpPlayerDetailBtn: document.querySelector("#closeExpPlayerDetailBtn"),
   expPlayerDetailName: document.querySelector("#expPlayerDetailName"),
   expPlayerDetailStats: document.querySelector("#expPlayerDetailStats"),
+  expPlayerMapStats: document.querySelector("#expPlayerMapStats"),
   expPlayerHistoryBody: document.querySelector("#expPlayerHistoryBody"),
   expPlayerHistoryEmpty: document.querySelector("#expPlayerHistoryEmpty"),
   expPlayerPhotoPreview: document.querySelector("#expPlayerPhotoPreview"),
   uploadExpPlayerPhotoBtn: document.querySelector("#uploadExpPlayerPhotoBtn"),
   removeExpPlayerPhotoBtn: document.querySelector("#removeExpPlayerPhotoBtn"),
   expPlayerPhotoInput: document.querySelector("#expPlayerPhotoInput"),
+  seasonAwardsDialog: document.querySelector("#seasonAwardsDialog"),
+  closeSeasonAwardsBtn: document.querySelector("#closeSeasonAwardsBtn"),
 };
 
 elements.appTabs.forEach((button) => {
@@ -289,6 +300,8 @@ elements.expTeamARoundsInput.addEventListener("input", updateExpResultPreview);
 elements.expTeamBRoundsInput.addEventListener("input", updateExpResultPreview);
 elements.expRankingList.addEventListener("click", handleExpRankingClick);
 elements.expRankingList.addEventListener("keydown", handleExpRankingKeydown);
+elements.expSeasonGrid.addEventListener("click", handleExpSeasonClick);
+elements.expSeasonGrid.addEventListener("keydown", handleExpSeasonKeydown);
 elements.closeExpPlayerDetailBtn.addEventListener("click", closeExpPlayerDetail);
 elements.uploadExpPlayerPhotoBtn.addEventListener("click", () => elements.expPlayerPhotoInput.click());
 elements.removeExpPlayerPhotoBtn.addEventListener("click", removeExpPlayerPhoto);
@@ -306,6 +319,12 @@ elements.expMatchDialog.addEventListener("click", (event) => {
 elements.expPlayerDetailDialog.addEventListener("click", (event) => {
   if (event.target === elements.expPlayerDetailDialog) {
     closeExpPlayerDetail();
+  }
+});
+elements.closeSeasonAwardsBtn.addEventListener("click", closeSeasonAwards);
+elements.seasonAwardsDialog.addEventListener("click", (event) => {
+  if (event.target === elements.seasonAwardsDialog) {
+    closeSeasonAwards();
   }
 });
 
@@ -409,7 +428,7 @@ function switchEsportsTab(tab) {
 }
 
 function switchExpTab(tab) {
-  if (!["matches", "ranking"].includes(tab)) return;
+  if (!["matches", "ranking", "history"].includes(tab)) return;
   activeExpTab = tab;
 
   elements.expSubTabs.forEach((button) => {
@@ -420,6 +439,8 @@ function switchExpTab(tab) {
   elements.expMatchesPanel.classList.toggle("active", tab === "matches");
   elements.expRankingPanel.hidden = tab !== "ranking";
   elements.expRankingPanel.classList.toggle("active", tab === "ranking");
+  elements.expHistoryPanel.hidden = tab !== "history";
+  elements.expHistoryPanel.classList.toggle("active", tab === "history");
 }
 
 function exportBackup() {
@@ -1364,6 +1385,7 @@ function renderExp() {
   renderExpMapsTable();
   renderExpMatchesTable();
   renderExpRanking();
+  renderExpSeasonHistory();
 
   if (selectedExpMatchId && elements.expMatchDialog.open) {
     const match = getSelectedExpMatch();
@@ -1441,6 +1463,87 @@ function renderExpRanking() {
     `;
     elements.expRankingList.appendChild(row);
   });
+}
+
+function renderExpSeasonHistory() {
+  const rankedPlayers = getRankedExpPlayerStats();
+  elements.expSeasonGrid.innerHTML = rankedSeasons
+    .map((season) => {
+      if (season.upcoming) {
+        return `
+          <article class="season-card upcoming">
+            <header class="season-card-header">
+              <div>
+                <p class="panel-label">Season</p>
+                <h3>${escapeHtml(season.label)}</h3>
+              </div>
+              <span class="season-status">Upcoming</span>
+            </header>
+            <div class="season-coming-soon">
+              <strong>Awards coming soon</strong>
+              <span>Season archive will be available after the final match.</span>
+            </div>
+          </article>
+        `;
+      }
+
+      return `
+        <article
+          class="season-card completed"
+          role="button"
+          tabindex="0"
+          data-season-awards="${escapeHtml(season.id)}"
+          aria-label="Open ${escapeHtml(season.label)} awards"
+        >
+          <header class="season-card-header">
+            <div>
+              <p class="panel-label">Season</p>
+              <h3>${escapeHtml(season.label)}</h3>
+            </div>
+            <span class="season-status">Completed</span>
+          </header>
+          <div class="season-player-list">
+            ${rankedPlayers.map((entry) => `
+              <div class="season-player-row">
+                ${getExpPlayerPhotoMarkup(entry.player)}
+                <strong>${escapeHtml(entry.player.name)}</strong>
+                <span>${entry.wins} ${entry.wins === 1 ? "win" : "wins"}</span>
+              </div>
+            `).join("")}
+          </div>
+          <footer class="season-card-footer">View awards</footer>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function handleExpSeasonClick(event) {
+  const seasonCard = event.target.closest("[data-season-awards]");
+  if (!seasonCard) return;
+  openSeasonAwards(seasonCard.dataset.seasonAwards);
+}
+
+function handleExpSeasonKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const seasonCard = event.target.closest("[data-season-awards]");
+  if (!seasonCard) return;
+
+  event.preventDefault();
+  openSeasonAwards(seasonCard.dataset.seasonAwards);
+}
+
+function openSeasonAwards(seasonId) {
+  if (seasonId !== "2026-3") return;
+  if (!elements.seasonAwardsDialog.open) {
+    elements.seasonAwardsDialog.showModal();
+  }
+}
+
+function closeSeasonAwards() {
+  if (elements.seasonAwardsDialog.open) {
+    elements.seasonAwardsDialog.close();
+  }
 }
 
 function getExpMapCounts() {
@@ -1734,7 +1837,7 @@ function renderExpTeamStats(container, playerIds, match, goatId) {
       <span>A</span>
       <span>MVP</span>
       <span>Score</span>
-      <span></span>
+      <span>Actions</span>
     </div>
   `;
 
@@ -1753,13 +1856,22 @@ function renderExpTeamStats(container, playerIds, match, goatId) {
       ${getExpStatInputMarkup(playerId, "assists", stats.assists, match.status, 999)}
       ${getExpStatInputMarkup(playerId, "mvp", stats.mvp, match.status, 99)}
       ${getExpStatInputMarkup(playerId, "score", stats.score, match.status, 99999)}
-      <button
-        class="remove-exp-player-btn"
-        type="button"
-        data-remove-exp-player="${escapeHtml(playerId)}"
-        aria-label="Remove ${escapeHtml(player?.name ?? "player")} from this match"
-        title="Remove from this match"
-      >x</button>
+      <div class="exp-player-row-actions">
+        <button
+          class="move-exp-player-btn"
+          type="button"
+          data-move-exp-player="${escapeHtml(playerId)}"
+          aria-label="Move ${escapeHtml(player?.name ?? "player")} to the other team"
+          title="Move to the other team"
+        >⇄</button>
+        <button
+          class="remove-exp-player-btn"
+          type="button"
+          data-remove-exp-player="${escapeHtml(playerId)}"
+          aria-label="Remove ${escapeHtml(player?.name ?? "player")} from this match"
+          title="Remove from this match"
+        >x</button>
+      </div>
     `;
     container.appendChild(row);
   });
@@ -1782,10 +1894,41 @@ function getExpStatInputMarkup(playerId, stat, value, status, max) {
 }
 
 function handleExpStatsGridClick(event) {
+  const moveButton = event.target.closest("[data-move-exp-player]");
+  if (moveButton) {
+    movePlayerToOtherExpTeam(moveButton.dataset.moveExpPlayer);
+    return;
+  }
+
   const removeButton = event.target.closest("[data-remove-exp-player]");
   if (!removeButton) return;
 
   removePlayerFromSelectedExpMatch(removeButton.dataset.removeExpPlayer);
+}
+
+function movePlayerToOtherExpTeam(playerId) {
+  const match = getSelectedExpMatch();
+  if (!match) return;
+
+  const sourceKey = match.teamAIds.includes(playerId)
+    ? "teamAIds"
+    : match.teamBIds.includes(playerId)
+      ? "teamBIds"
+      : null;
+  if (!sourceKey) return;
+
+  if (match[sourceKey].length <= 1) {
+    window.alert("Each team needs at least one player.");
+    return;
+  }
+
+  const targetKey = sourceKey === "teamAIds" ? "teamBIds" : "teamAIds";
+  syncExpMatchDraft(match);
+  match[sourceKey] = match[sourceKey].filter((id) => id !== playerId);
+  match[targetKey].push(playerId);
+
+  saveState();
+  render();
 }
 
 function removePlayerFromSelectedExpMatch(playerId) {
@@ -2107,7 +2250,92 @@ function renderExpPlayerDetail() {
       ["GOATs", stats.goats],
     ])}
   `;
+  renderExpPlayerMapPerformance(selectedExpPlayerId);
   renderExpPlayerHistory(selectedExpPlayerId);
+}
+
+function renderExpPlayerMapPerformance(playerId) {
+  const performance = calculateExpPlayerMapPerformance(playerId);
+  const mapItems = [
+    ["Best map (KDA)", performance.bestKda, "kda"],
+    ["Best map (Score)", performance.bestScore, "score"],
+    ["Worst map (KDA)", performance.worstKda, "kda"],
+    ["Worst map (Score)", performance.worstScore, "score"],
+  ];
+
+  elements.expPlayerMapStats.innerHTML = mapItems
+    .map(([label, entry, metric]) => getExpMapPerformanceMarkup(label, entry, metric))
+    .join("");
+}
+
+function calculateExpPlayerMapPerformance(playerId) {
+  const totalsByMap = new Map();
+
+  state.exp.matches.forEach((match) => {
+    if (match.status !== "completed") return;
+    if (!match.teamAIds.includes(playerId) && !match.teamBIds.includes(playerId)) return;
+
+    const playerStats = match.playerStats[playerId] ?? normalizeExpPlayerStats(null);
+    const totals = totalsByMap.get(match.map) ?? {
+      map: match.map,
+      matches: 0,
+      kills: 0,
+      assists: 0,
+      deaths: 0,
+      score: 0,
+    };
+
+    totals.matches += 1;
+    totals.kills += playerStats.kills;
+    totals.assists += playerStats.assists;
+    totals.deaths += playerStats.deaths;
+    totals.score += playerStats.score;
+    totalsByMap.set(match.map, totals);
+  });
+
+  const mapStats = [...totalsByMap.values()].map((totals) => ({
+    ...totals,
+    kda: calculateKda(totals.kills, totals.assists, totals.deaths),
+    averageScore: totals.matches ? totals.score / totals.matches : 0,
+  }));
+
+  if (!mapStats.length) {
+    return { bestKda: null, bestScore: null, worstKda: null, worstScore: null };
+  }
+
+  const byKda = [...mapStats].sort((first, second) =>
+    second.kda - first.kda
+    || second.averageScore - first.averageScore
+    || first.map.localeCompare(second.map),
+  );
+  const byScore = [...mapStats].sort((first, second) =>
+    second.averageScore - first.averageScore
+    || second.kda - first.kda
+    || first.map.localeCompare(second.map),
+  );
+
+  return {
+    bestKda: byKda[0],
+    bestScore: byScore[0],
+    worstKda: byKda[byKda.length - 1],
+    worstScore: byScore[byScore.length - 1],
+  };
+}
+
+function getExpMapPerformanceMarkup(label, entry, metric) {
+  const metricValue = !entry
+    ? "No data"
+    : metric === "kda"
+      ? `KDA ${formatKda(entry.kda)}`
+      : `AVG ${formatKda(entry.averageScore)}`;
+
+  return `
+    <article class="exp-map-performance-stat ${label.startsWith("Worst") ? "worst" : "best"}">
+      <p class="panel-label">${escapeHtml(label)}</p>
+      <strong>${entry ? escapeHtml(entry.map) : "-"}</strong>
+      <span>${escapeHtml(metricValue)}</span>
+    </article>
+  `;
 }
 
 function getExpDetailSectionMarkup(items) {
