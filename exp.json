@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-21T21:31:18.346Z",
+  "exportedAt": "2026-08-24T13:46:45.859Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -19,14 +19,13 @@
           "createdAt": "2026-08-21T21:31:12.806Z",
           "map": "overpass",
           "teamAIds": [
-            "vinicius",
             "vini",
-            "cicero"
+            "cicero",
+            "davi"
           ],
           "teamBIds": [
             "pedro",
-            "davi",
-            "mathiussi"
+            "vinicius"
           ],
           "status": "pending",
           "result": null,
@@ -62,13 +61,6 @@
               "score": 0
             },
             "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "mathiussi": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
