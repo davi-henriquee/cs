@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-24T13:46:45.859Z",
+  "exportedAt": "2026-08-26T16:01:22.735Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,30 +15,23 @@
     "exp": {
       "matches": [
         {
-          "id": "cc3d3842-7e1d-4151-bc76-691292e4f7a9",
-          "createdAt": "2026-08-21T21:31:12.806Z",
-          "map": "overpass",
+          "id": "c3923483-095d-4575-b068-913d325815b0",
+          "createdAt": "2026-08-26T16:01:08.290Z",
+          "map": "mirage",
           "teamAIds": [
-            "vini",
-            "cicero",
-            "davi"
+            "davi",
+            "vinicius"
           ],
           "teamBIds": [
             "pedro",
-            "vinicius"
+            "cicero",
+            "vini"
           ],
           "status": "pending",
           "result": null,
           "teamARounds": null,
           "teamBRounds": null,
           "playerStats": {
-            "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
             "vini": {
               "kills": 0,
               "deaths": 0,
@@ -46,7 +39,7 @@
               "mvp": 0,
               "score": 0
             },
-            "cicero": {
+            "davi": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
@@ -60,9 +53,71 @@
               "mvp": 0,
               "score": 0
             },
-            "davi": {
+            "vinicius": {
               "kills": 0,
               "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            },
+            "cicero": {
+              "kills": 0,
+              "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            }
+          }
+        },
+        {
+          "id": "cc3d3842-7e1d-4151-bc76-691292e4f7a9",
+          "createdAt": "2026-08-21T21:31:12.806Z",
+          "map": "overpass",
+          "teamAIds": [
+            "vini",
+            "cicero",
+            "davi"
+          ],
+          "teamBIds": [
+            "pedro",
+            "vinicius"
+          ],
+          "status": "completed",
+          "result": "teamA",
+          "teamARounds": 13,
+          "teamBRounds": 6,
+          "playerStats": {
+            "vini": {
+              "kills": 10,
+              "deaths": 9,
+              "assists": 4,
+              "mvp": 3,
+              "score": 36
+            },
+            "cicero": {
+              "kills": 16,
+              "deaths": 14,
+              "assists": 9,
+              "mvp": 2,
+              "score": 41
+            },
+            "davi": {
+              "kills": 23,
+              "deaths": 10,
+              "assists": 2,
+              "mvp": 4,
+              "score": 54
+            },
+            "pedro": {
+              "kills": 10,
+              "deaths": 16,
+              "assists": 6,
+              "mvp": 2,
+              "score": 36
+            },
+            "vinicius": {
+              "kills": 0,
+              "deaths": 10,
               "assists": 0,
               "mvp": 0,
               "score": 0
