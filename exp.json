@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-26T16:01:22.735Z",
+  "exportedAt": "2026-08-27T10:28:08.090Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,15 +15,15 @@
     "exp": {
       "matches": [
         {
-          "id": "c3923483-095d-4575-b068-913d325815b0",
-          "createdAt": "2026-08-26T16:01:08.290Z",
-          "map": "mirage",
+          "id": "2a248ccc-8ff1-4ac2-b213-c02fdd4f7d44",
+          "createdAt": "2026-08-27T10:27:52.415Z",
+          "map": "ancient",
           "teamAIds": [
             "davi",
-            "vinicius"
+            "pedro"
           ],
           "teamBIds": [
-            "pedro",
+            "vinicius",
             "cicero",
             "vini"
           ],
@@ -66,6 +66,53 @@
               "assists": 0,
               "mvp": 0,
               "score": 0
+            }
+          }
+        },
+        {
+          "id": "c3923483-095d-4575-b068-913d325815b0",
+          "createdAt": "2026-08-26T16:01:08.290Z",
+          "map": "mirage",
+          "teamAIds": [
+            "davi",
+            "pedro"
+          ],
+          "teamBIds": [
+            "cicero",
+            "vini"
+          ],
+          "status": "completed",
+          "result": "teamA",
+          "teamARounds": 13,
+          "teamBRounds": 9,
+          "playerStats": {
+            "davi": {
+              "kills": 16,
+              "deaths": 12,
+              "assists": 3,
+              "mvp": 5,
+              "score": 47
+            },
+            "pedro": {
+              "kills": 19,
+              "deaths": 12,
+              "assists": 6,
+              "mvp": 3,
+              "score": 48
+            },
+            "cicero": {
+              "kills": 8,
+              "deaths": 16,
+              "assists": 5,
+              "mvp": 1,
+              "score": 30
+            },
+            "vini": {
+              "kills": 14,
+              "deaths": 15,
+              "assists": 7,
+              "mvp": 3,
+              "score": 46
             }
           }
         },
