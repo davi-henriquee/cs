@@ -36,9 +36,22 @@ const rankedPlayerDirectory = [...expPlayers, ...archivedExpPlayers];
 const rankedSeasons = [
   { id: "2027-2", label: "2027/2", upcoming: true },
   { id: "2027-1", label: "2027/1", upcoming: true },
-  { id: "2026-4", label: "2026/4", current: true },
-  { id: "2026-3", label: "2026/3", archived: true },
+  { id: "2026-3", label: "2026/3", current: true },
+  { id: "2026-2", label: "2026/2", archived: true },
 ];
+
+const rankedSeasonAwards = {
+  "2026-2": [
+    "Karambit: Special Gold & M4A4: Special Expertise & P2000: Special Expertise",
+    "M4A4: Special Expertise & P2000: Special Expertise",
+    "P2000: Special Expertise",
+  ],
+  "2026-3": [
+    "Butterfly Knife: Special Gold & AK-47: Special Expertise & Glock-18: Special Expertise",
+    "AK-47: Special Expertise & Glock-18: Special Expertise",
+    "Glock-18: Special Expertise",
+  ],
+};
 
 const ranks = [
   { key: "GRAY", name: "GRAY", min: 0, max: 5000, color: "#7c8797" },
@@ -236,6 +249,8 @@ const elements = {
   expPlayerPhotoInput: document.querySelector("#expPlayerPhotoInput"),
   seasonAwardsDialog: document.querySelector("#seasonAwardsDialog"),
   closeSeasonAwardsBtn: document.querySelector("#closeSeasonAwardsBtn"),
+  seasonAwardsTitle: document.querySelector("#seasonAwardsTitle"),
+  seasonAwardsList: document.querySelector("#seasonAwardsList"),
 };
 
 elements.appTabs.forEach((button) => {
@@ -1533,13 +1548,14 @@ function renderExpSeasonHistory() {
         ? getRankedExpPlayerStats()
         : getArchivedExpSeasonStandings(season.id);
       const cardClass = season.current ? "current" : "completed";
-      const interactionAttributes = season.archived
+      const hasAwards = Boolean(rankedSeasonAwards[season.id]);
+      const interactionAttributes = hasAwards
         ? `role="button" tabindex="0" data-season-awards="${escapeHtml(season.id)}" aria-label="Open ${escapeHtml(season.label)} awards"`
         : "";
 
       return `
         <article
-          class="season-card ${cardClass}"
+          class="season-card ${cardClass} ${hasAwards ? "has-awards" : ""}"
           ${interactionAttributes}
         >
           <header class="season-card-header">
@@ -1558,7 +1574,7 @@ function renderExpSeasonHistory() {
               </div>
             `).join("")}
           </div>
-          <footer class="season-card-footer">${season.current ? "Season in progress" : "View awards"}</footer>
+          <footer class="season-card-footer">${season.current ? "Season in progress · View awards" : "View awards"}</footer>
         </article>
       `;
     })
@@ -1592,7 +1608,21 @@ function handleExpSeasonKeydown(event) {
 }
 
 function openSeasonAwards(seasonId) {
-  if (seasonId !== "2026-3") return;
+  const awards = rankedSeasonAwards[seasonId];
+  const season = rankedSeasons.find((entry) => entry.id === seasonId);
+  if (!awards || !season) return;
+
+  elements.seasonAwardsTitle.textContent = `${season.label} Awards`;
+  elements.seasonAwardsList.setAttribute("aria-label", `${season.label} awards`);
+  elements.seasonAwardsList.innerHTML = awards
+    .map((award, index) => `
+      <article>
+        <strong>${index + 1}º</strong>
+        <span>${escapeHtml(award)}</span>
+      </article>
+    `)
+    .join("");
+
   if (!elements.seasonAwardsDialog.open) {
     elements.seasonAwardsDialog.showModal();
   }
@@ -1891,8 +1921,8 @@ function renderExpTeamStats(container, playerIds, match, goatId) {
     <div class="exp-team-stats-header">
       <span>Player</span>
       <span>K</span>
-      <span>D</span>
       <span>A</span>
+      <span>D</span>
       <span>MVP</span>
       <span>Score</span>
       <span>Actions</span>
@@ -1910,8 +1940,8 @@ function renderExpTeamStats(container, playerIds, match, goatId) {
         ${escapeHtml(player?.name ?? "Removed player")}${playerId === goatId ? getGoatStarMarkup() : ""}
       </strong>
       ${getExpStatInputMarkup(playerId, "kills", stats.kills, match.status, 999)}
-      ${getExpStatInputMarkup(playerId, "deaths", stats.deaths, match.status, 999)}
       ${getExpStatInputMarkup(playerId, "assists", stats.assists, match.status, 999)}
+      ${getExpStatInputMarkup(playerId, "deaths", stats.deaths, match.status, 999)}
       ${getExpStatInputMarkup(playerId, "mvp", stats.mvp, match.status, 99)}
       ${getExpStatInputMarkup(playerId, "score", stats.score, match.status, 99999)}
       <div class="exp-player-row-actions">

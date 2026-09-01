@@ -592,7 +592,7 @@ tbody tr td:first-child {
     rgba(16, 21, 31, 0.92);
 }
 
-.season-card.completed {
+.season-card.has-awards {
   cursor: pointer;
   transition:
     transform 160ms ease,
@@ -600,8 +600,8 @@ tbody tr td:first-child {
     box-shadow 160ms ease;
 }
 
-.season-card.completed:hover,
-.season-card.completed:focus-visible {
+.season-card.has-awards:hover,
+.season-card.has-awards:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(48, 242, 194, 0.52);
   box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32), 0 0 0 3px rgba(48, 242, 194, 0.08);
@@ -1159,7 +1159,7 @@ tbody tr td:first-child {
 }
 
 .season-awards-dialog {
-  width: min(600px, calc(100% - 28px));
+  width: min(840px, calc(100% - 28px));
 }
 
 .season-awards-list {
@@ -1185,13 +1185,22 @@ tbody tr td:first-child {
 }
 
 .season-awards-list strong {
-  color: var(--gold-rank);
+  color: var(--muted);
   font-size: 1.45rem;
+}
+
+.season-awards-list article:first-child {
+  background: rgba(255, 203, 61, 0.06);
+}
+
+.season-awards-list article:first-child strong {
+  color: var(--gold-rank);
   text-shadow: 0 0 14px rgba(255, 203, 61, 0.38);
 }
 
 .season-awards-list span {
   font-weight: 900;
+  line-height: 1.45;
 }
 
 .winner-grid {
