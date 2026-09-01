@@ -585,6 +585,13 @@ tbody tr td:first-child {
   background: linear-gradient(90deg, var(--muted-2), transparent 72%);
 }
 
+.season-card.current {
+  border-color: rgba(48, 242, 194, 0.32);
+  background:
+    linear-gradient(145deg, rgba(48, 242, 194, 0.12), transparent 42%),
+    rgba(16, 21, 31, 0.92);
+}
+
 .season-card.completed {
   cursor: pointer;
   transition:
@@ -630,6 +637,7 @@ tbody tr td:first-child {
   text-transform: uppercase;
 }
 
+.season-card.current .season-status,
 .season-card.completed .season-status {
   border-color: rgba(48, 242, 194, 0.34);
   color: var(--accent);
@@ -668,6 +676,34 @@ tbody tr td:first-child {
 
 .season-player-row:last-child {
   border-bottom: 0;
+}
+
+.season-player-row.season-gold {
+  margin: 3px -8px 0;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 203, 61, 0.42);
+  border-radius: 6px;
+  background: rgba(255, 203, 61, 0.12);
+  box-shadow: inset 3px 0 0 var(--gold-rank), 0 0 20px rgba(255, 203, 61, 0.08);
+}
+
+.season-player-row.season-silver {
+  margin: 3px -8px 0;
+  padding: 0 8px;
+  border: 1px solid rgba(203, 213, 225, 0.34);
+  border-radius: 6px;
+  background: rgba(203, 213, 225, 0.09);
+  box-shadow: inset 3px 0 0 #cbd5e1;
+}
+
+.season-player-row.season-gold > strong,
+.season-player-row.season-gold > span:last-child {
+  color: var(--gold-rank);
+}
+
+.season-player-row.season-silver > strong,
+.season-player-row.season-silver > span:last-child {
+  color: #dce3ec;
 }
 
 .season-player-row .club-logo {

@@ -25,14 +25,19 @@ const expPlayers = [
   { id: "vini", name: "Vini" },
   { id: "davi", name: "Davi" },
   { id: "cicero", name: "Cícero" },
+];
+
+const archivedExpPlayers = [
   { id: "mathiussi", name: "Mathiussi" },
 ];
+
+const rankedPlayerDirectory = [...expPlayers, ...archivedExpPlayers];
 
 const rankedSeasons = [
   { id: "2027-2", label: "2027/2", upcoming: true },
   { id: "2027-1", label: "2027/1", upcoming: true },
-  { id: "2026-4", label: "2026/4", upcoming: true },
-  { id: "2026-3", label: "2026/3", upcoming: false },
+  { id: "2026-4", label: "2026/4", current: true },
+  { id: "2026-3", label: "2026/3", archived: true },
 ];
 
 const ranks = [
@@ -80,6 +85,7 @@ const defaultState = {
   exp: {
     matches: [],
     playerImages: {},
+    seasons: {},
   },
 };
 
@@ -370,6 +376,7 @@ function getDefaultState() {
     exp: {
       matches: [],
       playerImages: {},
+      seasons: {},
     },
   };
 }
@@ -519,6 +526,7 @@ function normalizeStatePayload(payload) {
       exp: {
         matches: data.matches,
         playerImages: data.playerImages ?? {},
+        seasons: data.seasons ?? {},
       },
     });
   }
@@ -567,6 +575,7 @@ function normalizeExp(exp) {
   return {
     matches,
     playerImages: normalizeExpPlayerImages(exp?.playerImages),
+    seasons: normalizeExpSeasons(exp?.seasons),
   };
 }
 
@@ -574,7 +583,7 @@ function normalizeExpPlayerImages(playerImages) {
   const normalized = {};
   if (!playerImages || typeof playerImages !== "object") return normalized;
 
-  expPlayers.forEach((player) => {
+  rankedPlayerDirectory.forEach((player) => {
     const image = normalizeLogo(playerImages[player.id]);
     if (image) {
       normalized[player.id] = image;
@@ -582,6 +591,40 @@ function normalizeExpPlayerImages(playerImages) {
   });
 
   return normalized;
+}
+
+function normalizeExpSeasons(seasons) {
+  const normalized = {};
+  if (!seasons || typeof seasons !== "object") return normalized;
+
+  Object.entries(seasons).forEach(([seasonId, season]) => {
+    if (!season || typeof season !== "object") return;
+    const standings = normalizeExpSeasonStandings(season.standings);
+    normalized[seasonId] = { standings };
+  });
+
+  return normalized;
+}
+
+function normalizeExpSeasonStandings(standings) {
+  if (!Array.isArray(standings)) return [];
+  const seenIds = new Set();
+
+  return standings
+    .map((entry) => {
+      const playerId = typeof entry?.id === "string" ? entry.id : entry?.playerId;
+      const directoryPlayer = rankedPlayerDirectory.find((player) => player.id === playerId);
+      if (!directoryPlayer || seenIds.has(playerId)) return null;
+      seenIds.add(playerId);
+
+      return {
+        id: playerId,
+        name: typeof entry.name === "string" && entry.name.trim() ? entry.name.trim() : directoryPlayer.name,
+        wins: normalizeExpStatValue(entry.wins, 9999),
+      };
+    })
+    .filter(Boolean)
+    .sort((first, second) => second.wins - first.wins || first.name.localeCompare(second.name));
 }
 
 function normalizeExpMatch(match) {
@@ -1466,7 +1509,6 @@ function renderExpRanking() {
 }
 
 function renderExpSeasonHistory() {
-  const rankedPlayers = getRankedExpPlayerStats();
   elements.expSeasonGrid.innerHTML = rankedSeasons
     .map((season) => {
       if (season.upcoming) {
@@ -1487,35 +1529,51 @@ function renderExpSeasonHistory() {
         `;
       }
 
+      const standings = season.current
+        ? getRankedExpPlayerStats()
+        : getArchivedExpSeasonStandings(season.id);
+      const cardClass = season.current ? "current" : "completed";
+      const interactionAttributes = season.archived
+        ? `role="button" tabindex="0" data-season-awards="${escapeHtml(season.id)}" aria-label="Open ${escapeHtml(season.label)} awards"`
+        : "";
+
       return `
         <article
-          class="season-card completed"
-          role="button"
-          tabindex="0"
-          data-season-awards="${escapeHtml(season.id)}"
-          aria-label="Open ${escapeHtml(season.label)} awards"
+          class="season-card ${cardClass}"
+          ${interactionAttributes}
         >
           <header class="season-card-header">
             <div>
               <p class="panel-label">Season</p>
               <h3>${escapeHtml(season.label)}</h3>
             </div>
-            <span class="season-status">Completed</span>
+            <span class="season-status">${season.current ? "Current" : "Completed"}</span>
           </header>
           <div class="season-player-list">
-            ${rankedPlayers.map((entry) => `
-              <div class="season-player-row">
+            ${standings.map((entry, index) => `
+              <div class="season-player-row ${season.archived && index === 0 ? "season-gold" : ""} ${season.archived && index === 1 ? "season-silver" : ""}">
                 ${getExpPlayerPhotoMarkup(entry.player)}
                 <strong>${escapeHtml(entry.player.name)}</strong>
                 <span>${entry.wins} ${entry.wins === 1 ? "win" : "wins"}</span>
               </div>
             `).join("")}
           </div>
-          <footer class="season-card-footer">View awards</footer>
+          <footer class="season-card-footer">${season.current ? "Season in progress" : "View awards"}</footer>
         </article>
       `;
     })
     .join("");
+}
+
+function getArchivedExpSeasonStandings(seasonId) {
+  const standings = state.exp.seasons?.[seasonId]?.standings ?? [];
+
+  return standings
+    .map((entry) => ({
+      player: getExpPlayer(entry.id) ?? { id: entry.id, name: entry.name },
+      wins: entry.wins,
+    }))
+    .sort((first, second) => second.wins - first.wins || first.player.name.localeCompare(second.player.name));
 }
 
 function handleExpSeasonClick(event) {
@@ -2471,7 +2529,7 @@ function removeExpPlayerPhoto() {
 }
 
 function getExpPlayer(playerId) {
-  return expPlayers.find((player) => player.id === playerId) ?? null;
+  return rankedPlayerDirectory.find((player) => player.id === playerId) ?? null;
 }
 
 function getExpPlayerImage(playerId) {
