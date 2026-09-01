@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-09-01T15:58:47.186Z",
+  "exportedAt": "2026-09-01T16:01:10.190Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -39,7 +39,7 @@
               "mvp": 0,
               "score": 0
             },
-            "davi": {
+            "cicero": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
@@ -60,7 +60,7 @@
               "mvp": 0,
               "score": 0
             },
-            "cicero": {
+            "davi": {
               "kills": 0,
               "deaths": 0,
               "assists": 0,
@@ -82,9 +82,9 @@
             "davi"
           ],
           "status": "completed",
-          "result": "draw",
+          "result": "teamA",
           "teamARounds": 13,
-          "teamBRounds": 13,
+          "teamBRounds": 8,
           "playerStats": {
             "vinicius": {
               "kills": 8,
