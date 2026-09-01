@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-08-27T21:13:08.518Z",
+  "exportedAt": "2026-09-01T15:58:47.186Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -15,16 +15,16 @@
     "exp": {
       "matches": [
         {
-          "id": "b22b1f3f-e078-47c6-b120-ad86424e180a",
-          "createdAt": "2026-08-27T21:13:01.693Z",
-          "map": "tuscan",
+          "id": "9ab3a3b9-176b-4673-8b50-62dae69fa50a",
+          "createdAt": "2026-09-01T15:58:32.911Z",
+          "map": "dust 2",
           "teamAIds": [
-            "vinicius",
+            "vini",
             "cicero",
             "pedro"
           ],
           "teamBIds": [
-            "vini",
+            "vinicius",
             "davi"
           ],
           "status": "pending",
@@ -32,27 +32,6 @@
           "teamARounds": null,
           "teamBRounds": null,
           "playerStats": {
-            "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
             "vini": {
               "kills": 0,
               "deaths": 0,
@@ -66,6 +45,74 @@
               "assists": 0,
               "mvp": 0,
               "score": 0
+            },
+            "pedro": {
+              "kills": 0,
+              "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            },
+            "vinicius": {
+              "kills": 0,
+              "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            },
+            "cicero": {
+              "kills": 0,
+              "deaths": 0,
+              "assists": 0,
+              "mvp": 0,
+              "score": 0
+            }
+          }
+        },
+        {
+          "id": "b22b1f3f-e078-47c6-b120-ad86424e180a",
+          "createdAt": "2026-08-27T21:13:01.693Z",
+          "map": "tuscan",
+          "teamAIds": [
+            "vinicius",
+            "pedro"
+          ],
+          "teamBIds": [
+            "vini",
+            "davi"
+          ],
+          "status": "completed",
+          "result": "draw",
+          "teamARounds": 13,
+          "teamBRounds": 13,
+          "playerStats": {
+            "vinicius": {
+              "kills": 8,
+              "deaths": 15,
+              "assists": 2,
+              "mvp": 1,
+              "score": 24
+            },
+            "pedro": {
+              "kills": 10,
+              "deaths": 14,
+              "assists": 8,
+              "mvp": 5,
+              "score": 41
+            },
+            "vini": {
+              "kills": 9,
+              "deaths": 18,
+              "assists": 6,
+              "mvp": 0,
+              "score": 31
+            },
+            "davi": {
+              "kills": 19,
+              "deaths": 13,
+              "assists": 9,
+              "mvp": 3,
+              "score": 55
             }
           }
         },
