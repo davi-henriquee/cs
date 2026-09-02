@@ -14,10 +14,11 @@ const maps = [
   "mirage",
   "nuke",
   "overpass",
-  "train",
   "tuscan",
   "vertigo",
 ];
+
+const knownMaps = new Set([...maps, "train"]);
 
 const expPlayers = [
   { id: "pedro", name: "Pedro" },
@@ -666,7 +667,7 @@ function normalizeExpMatch(match) {
     createdAt: Number.isNaN(new Date(match.createdAt).getTime())
       ? new Date().toISOString()
       : match.createdAt,
-    map: maps.includes(match.map) ? match.map : pickRandom(maps),
+    map: knownMaps.has(match.map) ? match.map : pickRandom(maps),
     teamAIds,
     teamBIds,
     status,
@@ -824,7 +825,7 @@ function normalizeMatch(match) {
   return {
     id: typeof match.id === "string" && match.id ? match.id : makeId(),
     createdAt: Number.isNaN(new Date(match.createdAt).getTime()) ? new Date().toISOString() : match.createdAt,
-    map: maps.includes(match.map) ? match.map : pickRandom(maps),
+    map: knownMaps.has(match.map) ? match.map : pickRandom(maps),
     playerSide,
     enemySide,
     ratingAtGeneration,
