@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-09-02T15:59:59.936Z",
+  "exportedAt": "2026-09-02T16:21:07.671Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -95,7 +95,7 @@
             },
             "cicero": {
               "kills": 13,
-              "deaths": 1,
+              "deaths": 11,
               "assists": 6,
               "mvp": 2,
               "score": 34
