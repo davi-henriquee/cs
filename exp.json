@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-09-02T16:21:07.671Z",
+  "exportedAt": "2026-09-02T16:39:00.807Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -109,7 +109,7 @@
             },
             "pedro": {
               "kills": 12,
-              "deaths": 4,
+              "deaths": 14,
               "assists": 3,
               "mvp": 1,
               "score": 27
