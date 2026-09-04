@@ -1,7 +1,7 @@
 {
   "app": "CS RANKED",
   "version": 1,
-  "exportedAt": "2026-09-04T16:13:56.144Z",
+  "exportedAt": "2026-09-04T21:28:36.881Z",
   "data": {
     "baseRating": 0,
     "matches": [],
@@ -20,52 +20,44 @@
           "map": "nuke",
           "teamAIds": [
             "pedro",
-            "davi",
-            "cicero"
+            "davi"
           ],
           "teamBIds": [
             "vinicius",
             "vini"
           ],
-          "status": "pending",
-          "result": null,
-          "teamARounds": null,
-          "teamBRounds": null,
+          "status": "completed",
+          "result": "teamB",
+          "teamARounds": 9,
+          "teamBRounds": 13,
           "playerStats": {
             "pedro": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 9,
+              "deaths": 17,
+              "assists": 4,
+              "mvp": 1,
+              "score": 24
             },
             "davi": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
-            },
-            "cicero": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 21,
+              "deaths": 17,
+              "assists": 3,
+              "mvp": 5,
+              "score": 58
             },
             "vinicius": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 11,
+              "deaths": 12,
+              "assists": 5,
+              "mvp": 2,
+              "score": 40
             },
             "vini": {
-              "kills": 0,
-              "deaths": 0,
-              "assists": 0,
-              "mvp": 0,
-              "score": 0
+              "kills": 17,
+              "deaths": 11,
+              "assists": 6,
+              "mvp": 3,
+              "score": 44
             }
           }
         },
